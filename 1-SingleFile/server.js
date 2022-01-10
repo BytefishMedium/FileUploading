@@ -22,20 +22,17 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-
 router.get("/", async (ctx) => {
   ctx.body = "Hello friends!";
 });
 
 // add a route for uploading single files
-router.post(
-  '/upload-single-file',
-  upload.single('file'),
-  ctx => {
-    console.log('ctx.request.file', ctx.request.file);
-    ctx.body = `file ${ctx.request.file.filename} has saved on the server`;
-  }
-);
+router.post("/upload-single-file", upload.single("file"), (ctx) => {
+  ctx.body = {
+    message: `file ${ctx.request.file.filename} has saved on the server`,
+    url: `http://localhost:${PORT}/${ctx.request.file.originalname}`,
+  };
+});
 
 app.use(cors());
 app.use(router.routes()).use(router.allowedMethods());
