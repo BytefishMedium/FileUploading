@@ -5,7 +5,7 @@ const Router = require("@koa/router");
 const app = new Koa();
 const router = new Router();
 
-const PORT = 3000;
+const PORT = 3001;
 
 router.get("/", async (ctx) => {
   ctx.body = "Hello friends!";

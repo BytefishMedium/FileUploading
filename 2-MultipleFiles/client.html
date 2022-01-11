@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="	https://unpkg.com/axios@0.24.0/dist/axios.min.js"></script>
+</head>
+
+<body>
+  <input type="file" id="fileInput" multiple>
+  <button id="uploadButton">upload files</button>
+  <script>
+
+    document.getElementById("uploadButton").onclick = () => {
+      let fileElement = document.getElementById('fileInput')
+
+      // check if user had selected a file
+      if (fileElement.files.length === 0) {
+        alert('please choose some files')
+        return
+      }
+
+      let files = Array.from(fileElement.files)
+
+      let formData = new FormData();
+      files.forEach(file => {
+        formData.append('file', file);
+      })
+      
+      axios.post("http://localhost:3002/upload-multiple-files", formData, {
+        onUploadProgress: progressEvent => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          console.log(`upload process: ${percentCompleted}%`);
+        }
+      })
+        .then(res => {
+          console.log(res.data)
+          console.log(res.data.url)
+        })
+    }
+
+  </script>
+</body>
+
+</html>

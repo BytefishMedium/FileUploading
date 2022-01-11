@@ -8,7 +8,7 @@ const cors = require("@koa/cors");
 const app = new Koa();
 const router = new Router();
 
-const PORT = 3001;
+const PORT = 3002;
 
 const UPLOAD_DIR = path.join(__dirname, "/uploadFiles");
 
@@ -26,11 +26,13 @@ router.get("/", async (ctx) => {
   ctx.body = "Hello friends!";
 });
 
-// add a route for uploading single files
-router.post("/upload-single-file", upload.single("file"), (ctx) => {
+router.post("/upload-multiple-files", upload.fields([{ name: "file" }]), (ctx) => {
+  let urls = ctx.files.file.map(
+    (file) => `http://localhost:${PORT}/${file.originalname}`
+  );
   ctx.body = {
-    message: `file ${ctx.request.file.filename} has saved on the server`,
-    url: `http://localhost:${PORT}/${ctx.request.file.originalname}`,
+    message: `files have saved on the server`,
+    urls
   };
 });
 
