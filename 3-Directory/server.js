@@ -36,7 +36,7 @@ router.get("/", async (ctx) => {
   ctx.body = "Hello friends!";
 });
 
-router.post("/upload-multiple-files", upload.fields([{ name: "file" }]), (ctx) => {
+router.post("/upload-directory", upload.fields([{ name: "file" }]), (ctx) => {
   let urls = ctx.files.file.map(
     (file) =>
       `http://localhost:${PORT}/${file.originalname.replace(/@/g, path.sep)}`

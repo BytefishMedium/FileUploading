@@ -30,7 +30,7 @@
         formData.append('file', file, file.webkitRelativePath.replace(/\//g, "@"));
       })
       
-      axios.post("http://localhost:3003/upload-multiple-files", formData, {
+      axios.post("http://localhost:3003/upload-directory", formData, {
         onUploadProgress: progressEvent => {
           const percentCompleted = Math.round(
             (progressEvent.loaded * 100) / progressEvent.total
